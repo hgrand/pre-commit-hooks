@@ -1,0 +1,59 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-merge-conflict
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+        exclude: CHANGELOG.md
+      - id: check-merge-conflict
+      - id: check-executables-have-shebangs
+      - id: check-case-conflict
+      - id: mixed-line-ending
+      - id: detect-aws-credentials
+        args: ["--allow-missing-credentials"]
+      - id: detect-private-key
+
+  - repo: https://github.com/jumanjihouse/pre-commit-hooks
+    rev: 3.0.0
+    hooks:
+      - id: shfmt
+        name: shfmt
+        args: ["-l", "-i", "2", "-ci", "-sr", "-w"]
+      - id: shellcheck
+        name: shellcheck
+
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.45.0
+    hooks:
+      - id: markdownlint
+        exclude: >
+          (?x)^(
+              CHANGELOG.md
+          )$
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.22
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-toc
+          - mdformat-tables
+        exclude: >
+          (?x)^(
+              CHANGELOG.md
+          )$
+
+  - repo: local
+    hooks:
+      - id: enforce-conventional-commits
+        name: checks commit message for conventional commits formatting
+        entry: ./python_pre_commit_hooks/enforce_conventional_commits.py
+        language: python
+        description: check commit message for conventional commits formatting
+        stages: [commit-msg]
+        always_run: false
+        args:
+          - --limit-to=hooks,python_pre_commit_hooks

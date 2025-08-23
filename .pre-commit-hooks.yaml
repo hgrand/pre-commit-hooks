@@ -1,0 +1,26 @@
+- id: enforce-conventional-commits
+  name: checks commit message for conventional commits formatting
+  entry: enforce-conventional-commits
+  language: python
+  description: checks commit message for conventional commits formatting
+  always_run: false
+  require_serial: true
+  stages: [commit-msg]
+
+- id: terramate-fmt
+  name: terramate fmt
+  description: |
+    The `terramate fmt` command is used to format Terramate configuration
+    code.
+  entry: hooks/terramate_fmt.sh
+  language: script
+  pass_filenames: false
+
+- id: terramate-generate
+  name: terramate generate
+  description: |
+    The `terramate generate` command is used to generate code from Terramate
+    configuration.
+  entry: hooks/terramate_generate.sh
+  language: script
+  pass_filenames: false
